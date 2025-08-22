@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOM Manipulation Practice</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h2 { margin-top: 30px; }
+    .hidden { display: none; }
+    .highlight { background-color: yellow; }
+    .done { text-decoration: line-through; }
+    .dark { background-color: #222; color: white; }
+    .accordion-content { display: none; padding: 10px; border: 1px solid #ddd; }
+    .accordion-header { cursor: pointer; background: #eee; padding: 10px; }
+    img { max-width: 100%; }
+    .carousel img { width: 300px; height: 200px; object-fit: cover; }
+    .dropdown ul { display: none; margin: 0; padding: 0; }
+    .dropdown li { list-style: none; padding: 5px; }
+    table, td, th { border: 1px solid black; border-collapse: collapse; padding: 5px; }
+    .error { border: 2px solid red; }
+  </style>
+</head>
+<body>
+
+  <h1>DOM Manipulation Practice Playground</h1>
+
+  <!-- 1 -->
+  <h2>1. Change paragraph text</h2>
+  <p id="para1">Old text</p>
+  <button onclick="document.getElementById('para1').textContent='New text updated!'">Change Text</button>
+
+  <!-- 2 -->
+  <h2>2. Update image src</h2>
+  <img id="myImg" src="https://via.placeholder.com/150" alt="placeholder">
+  <button onclick="document.getElementById('myImg').src='https://picsum.photos/200'">Change Image</button>
+
+  <!-- 3 -->
+  <h2>3. Change div background</h2>
+  <div id="colorBox" style="width:100px;height:100px;background:lightblue;"></div>
+  <button onclick="document.getElementById('colorBox').style.background='pink'">Change Color</button>
+
+  <!-- 4 -->
+  <h2>4. Toggle visibility</h2>
+  <div id="toggleDiv">Hello! Hide me?</div>
+  <button onclick="toggleVisibility()">Toggle</button>
+
+  <!-- 5 -->
+  <h2>5. Add li item</h2>
+  <ul id="myList"><li>Item 1</li></ul>
+  <button onclick="addListItem()">Add Item</button>
+
+  <!-- 6 -->
+  <h2>6. Delete element</h2>
+  <p id="deleteMe">Delete this paragraph</p>
+  <button onclick="document.getElementById('deleteMe').remove()">Delete</button>
+
+  <!-- 7 -->
+  <h2>7. Add CSS class</h2>
+  <p id="classPara">Click button to highlight me.</p>
+  <button onclick="document.getElementById('classPara').classList.add('highlight')">Highlight</button>
+
+  <!-- 8 -->
+  <h2>8. Display input value</h2>
+  <input type="text" id="userInput" placeholder="Type something">
+  <button onclick="showInput()">Show</button>
+  <div id="output"></div>
+
+  <!-- 9 -->
+  <h2>9. Change font size</h2>
+  <p id="fontPara">Resize me!</p>
+  <button onclick="resizeText(2)">Increase</button>
+  <button onclick="resizeText(-2)">Decrease</button>
+
+  <!-- 10 -->
+  <h2>10. Live character count</h2>
+  <textarea id="textArea"></textarea>
+  <p>Count: <span id="charCount">0</span></p>
+
+  <!-- 11 -->
+  <h2>11. To-do list</h2>
+  <input type="text" id="todoInput">
+  <button onclick="addTodo()">Add</button>
+  <ul id="todoList"></ul>
+
+  <!-- 12 -->
+  <h2>12. Accordion</h2>
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">Section 1</div>
+    <div class="accordion-content">Content of Section 1</div>
+    <div class="accordion-header" onclick="toggleAccordion(this)">Section 2</div>
+    <div class="accordion-content">Content of Section 2</div>
+  </div>
+
+  <!-- 13 -->
+  <h2>13. Image Gallery</h2>
+  <div class="carousel">
+    <button onclick="prevImg()">Prev</button>
+    <img id="galleryImg" src="https://picsum.photos/id/101/300/200">
+    <button onclick="nextImg()">Next</button>
+  </div>
+
+  <!-- 14 -->
+  <h2>14. Dynamic Table</h2>
+  <table id="myTable"><tr><th>Name</th><th>Action</th></tr></table>
+  <button onclick="addRow()">Add Row</button>
+
+  <!-- 15 -->
+  <h2>15. Dark Mode</h2>
+  <button onclick="document.body.classList.toggle('dark')">Toggle Dark Mode</button>
+
+  <!-- 16 -->
+  <h2>16. Filter List</h2>
+  <input type="text" id="searchBox" onkeyup="filterList()" placeholder="Search...">
+  <ul id="filterList"><li>Apple</li><li>Banana</li><li>Orange</li></ul>
+
+  <!-- 17 -->
+  <h2>17. Dropdown Menu</h2>
+  <div class="dropdown">
+    <div onclick="toggleDropdown()">Menu ▼</div>
+    <ul id="submenu">
+      <li>Option 1</li>
+      <li>Option 2</li>
+    </ul>
+  </div>
+
+  <!-- 18 -->
+  <h2>18. Form Validation</h2>
+  <form onsubmit="return validateForm()">
+    <input type="text" id="nameField" placeholder="Name (required)">
+    <input type="submit" value="Submit">
+  </form>
+
+  <!-- 19 -->
+  <h2>19. Slideshow</h2>
+  <img id="slideImg" src="https://picsum.photos/id/102/300/200">
+
+  <!-- 20 -->
+  <h2>20. Event Delegation</h2>
+  <ul id="delegationList"><li>Item A</li><li>Item B</li></ul>
+
+<script>
+  // 4
+  function toggleVisibility() {
+    let div = document.getElementById("toggleDiv");
+    div.classList.toggle("hidden");
+  }
+
+  // 5
+  function addListItem() {
+    let li = document.createElement("li");
+    li.textContent = "New Item";
+    document.getElementById("myList").appendChild(li);
+  }
+
+  // 8
+  function showInput() {
+    document.getElementById("output").textContent = document.getElementById("userInput").value;
+  }
+
+  // 9
+  function resizeText(val) {
+    let para = document.getElementById("fontPara");
+    let size = window.getComputedStyle(para).fontSize;
+    let newSize = parseInt(size) + val;
+    para.style.fontSize = newSize + "px";
+  }
+
+  // 10
+  document.getElementById("textArea").addEventListener("input", function() {
+    document.getElementById("charCount").textContent = this.value.length;
+  });
+
+  // 11
+  function addTodo() {
+    let input = document.getElementById("todoInput");
+    if(input.value.trim() === "") return;
+    let li = document.createElement("li");
+    li.textContent = input.value;
+    li.onclick = () => li.classList.toggle("done");
+    let delBtn = document.createElement("button");
+    delBtn.textContent = "X";
+    delBtn.onclick = () => li.remove();
+    li.appendChild(delBtn);
+    document.getElementById("todoList").appendChild(li);
+    input.value = "";
+  }
+
+  // 12
+  function toggleAccordion(header) {
+    let content = header.nextElementSibling;
+    content.style.display = content.style.display === "block" ? "none" : "block";
+  }
+
+  // 13
+  let images = [
+    "https://picsum.photos/id/101/300/200",
+    "https://picsum.photos/id/102/300/200",
+    "https://picsum.photos/id/103/300/200"
+  ];
+  let index = 0;
+  function nextImg() {
+    index = (index + 1) % images.length;
+    document.getElementById("galleryImg").src = images[index];
+  }
+  function prevImg() {
+    index = (index - 1 + images.length) % images.length;
+    document.getElementById("galleryImg").src = images[index];
+  }
+
+  // 14
+  function addRow() {
+    let table = document.getElementById("myTable");
+    let row = table.insertRow();
+    let cell1 = row.insertCell(0);
+    let cell2 = row.insertCell(1);
+    cell1.textContent = "New Row";
+    let btn = document.createElement("button");
+    btn.textContent = "Delete";
+    btn.onclick = () => row.remove();
+    cell2.appendChild(btn);
+  }
+
+  // 16
+  function filterList() {
+    let query = document.getElementById("searchBox").value.toLowerCase();
+    document.querySelectorAll("#filterList li").forEach(li => {
+      li.style.display = li.textContent.toLowerCase().includes(query) ? "block" : "none";
+    });
+  }
+
+  // 17
+  function toggleDropdown() {
+    let submenu = document.getElementById("submenu");
+    submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+  }
+
+  // 18
+  function validateForm() {
+    let field = document.getElementById("nameField");
+    if (field.value.trim() === "") {
+      field.classList.add("error");
+      return false;
+    }
+    field.classList.remove("error");
+    return true;
+  }
+
+  // 19
+  let slideImgs = [
+    "https://picsum.photos/id/104/300/200",
+    "https://picsum.photos/id/105/300/200",
+    "https://picsum.photos/id/106/300/200"
+  ];
+  let slideIndex = 0;
+  setInterval(() => {
+    slideIndex = (slideIndex + 1) % slideImgs.length;
+    document.getElementById("slideImg").src = slideImgs[slideIndex];
+  }, 2000);
+
+  // 20
+  document.getElementById("delegationList").addEventListener("click", function(e) {
+    if (e.target.tagName === "LI") {
+      alert("You clicked: " + e.target.textContent);
+    }
+  });
+</script>
+
+</body>
+</html>
